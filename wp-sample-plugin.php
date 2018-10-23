@@ -9,53 +9,33 @@ Author URI: https://github.com/niiharamegumu/wp-sample-plugin
 License: GPLv2 or later
 */
 
-class Human {
-	public $para = array();
+new Sample_Plugin();
 
-	public function __construct( $para ){
-		$this->para = $para;
+class Sample_Plugin {
+	/**
+	* Constructor
+	*
+	* @version 1.0.0
+	* @since 1.0.0
+	*/
+	public function __construct() {
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 	}
-	public function cry(){
-		echo $this->para['voice'];
-	}
-	public function attack(){
-		$range = rand(0, 5);
-		$sign = rand(0, 1);
-		if ( $sign === 0 ) {
-			$range = $range * (-1);
-		}
-		$range += $this->para['power'];
-		echo $this->para['name'] . 'の攻撃！！<br>';
-		echo $this->para['name'] . 'は、' . $range . 'のダメージを与えた！１';
 
-		return $range;
-	}
-	public function die_flag( $damage, $name ){
-		$this->para['hp'] -= $damage;
-		if ( $this->para['hp'] <= 0 ) {
-			echo $this->para['name'] . 'は、' . $name . 'に殴られた！';
-			echo $this->para['name'] . 'は、' . '死んでしまった！';
-		}
+	/**
+	* Add admin menus.
+	*
+	* @version 1.0.0
+	* @since 1.0.0
+	*/
+	public function admin_menu() {
+		add_menu_page(
+			'サンプルA',
+			'sample-plugin',
+			'manage_options',
+			plugin_basename( __FILE__ ),
+			array( $this, 'list_page_render' ),
+			'dashicons-admin-site'
+		);
 	}
 }
-
-$hazama_para = array(
-	'name'  => 'Yoshiki',
-	'power' => 10,
-	'hp'    => 10,
-	'speed' => 500,
-	'voice' => 'オギャーーー！！！'
-);
-$imai_para = array(
-	'name' => 'Miku',
-	'power' => 30,
-	'hp'    => 50,
-	'speed' => 5,
-	'voice' => 'ヒャーーーー！！！'
-);
-
-$hazama = new Human( $hazama_para );
-$imai = new Human( $imai_para );
-
-$damage = $imai->attack();
-$hazama->die_flag( $damage, $imai->para['name'] );
