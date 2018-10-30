@@ -56,7 +56,6 @@ class Sample_Plugin {
 			'dashicons-admin-site'
 		);
 	}
-
 	/**
 	* Rendering List Page.
 	*
