@@ -74,7 +74,7 @@ class Sample_Plugin {
 			array( $this, 'list_page_render' ),
 			'dashicons-admin-site'
 		);
-		add_submenu_page(
+		$post_page = add_submenu_page(
 			__FILE__,
 			'サンプル追加',
 			'サンプル追加',
@@ -84,6 +84,7 @@ class Sample_Plugin {
 			'dashicons-admin-site'
 		);
 		add_action('admin_print_styles-' . $list_page, array( $this, 'add_style') );
+		add_action('admin_print_styles-' . $post_page, array( $this, 'add_style') );
 	}
 	
 	
