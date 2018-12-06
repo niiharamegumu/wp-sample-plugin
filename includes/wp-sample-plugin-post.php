@@ -15,10 +15,12 @@ Class Sample_Plugin_Post {
 	*/
 	public function __construct() {
 		$db = new Sample_Plugin_Admin_Db();
-		$db->insert_options( $_POST );
+		$args = $db->get_option( $_GET['id'] );
+		var_dump( $args );
+		// $db->insert_options( $_POST );
 		
 		
-		$this->page_render();
+		$this->page_render( $args );
 	}
 
 	/**
@@ -26,15 +28,16 @@ Class Sample_Plugin_Post {
 	*
 	* @version 1.0.0
 	* @since 1.0.0
+	* @param array $args
 	*/
-	private function page_render () {
+	private function page_render ( $args ) {
 		$html = '<div class="wrap">';
 		$html .= '<h1 class="wp-heading-inline">サンプル登録</h1>';
 		
 		echo $html;
 		
 		$html  = '<form method="post" action="">';
-		$html .= '<input type="hidden" name="sample_id" value="">';
+		$html .= '<input type="hidden" name="sample_id" value="' . $args->id . '">';
 		
 		$html .= '<h2>バナー設定</h2>';
 		
@@ -44,34 +47,34 @@ Class Sample_Plugin_Post {
 		$html .= '<th>画像のURL（必須）</th>';
 		$html .= '<td>';
 		$html .= '<img id="banner-image-view" src="' . plugins_url('../images/no-image.png', __FILE__) . '" width="200">';
-		$html .= '<input id="banner-image-url" type="text" name="sample-image-url" class="large-text" required>';
+		$html .= '<input id="banner-image-url" type="text" name="sample-image-url" class="large-text" required value="' . $args->image_url . '">';
 		$html .= '<button id="media-upload" type="botton" class="button">画像を選択</button>';
 		$html .= '</td>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
 		$html .= '<th>画像 Alt属性</th>';
-		$html .= '<td><input id="banner-image-alt" type="text" name="sample-image-alt" class="regular-text">';
+		$html .= '<td><input id="banner-image-alt" type="text" name="sample-image-alt" class="regular-text" value="' . $args->image_alt . '">';
 		$html .= '<p class="description">alt属性のテキストを入力します。</p></td>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
 		$html .= '<th>リンクURL</th>';
 		$html .= '<td>';
-		$html .= '<input type="text" name="sample-image-link" class="large-text">';
+		$html .= '<input type="text" name="sample-image-link" class="large-text" value="' . $args->link_url . '">';
 		$html .= '<p class="description">URLを入力すると、バナー画像にリンクを設定することができます。</p>';
 		$html .= '</td>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
 		$html .= '<th>新規タブを開く</th>';
-		$html .= '<td><input type="checkbox" name="sample-image-target">リンクを新規タブで開く</td>';
+		$html .= '<td><input type="checkbox" name="sample-image-target" value="' . $args->open_new_tab . '">リンクを新規タブで開く</td>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
 		$html .= '<th>Class名</th>';
 		$html .= '<td>';
-		$html .= '<input type="text" name="sample-element-class" class="regular-text">';
+		$html .= '<input type="text" name="sample-element-class" class="regular-text" value="' . $args->insert_element_class . '">';
 		$html .= '<p class="description">バナー画像にクラス（複数可）を追加することができます。「class=""」は不要です。';
 		$html .= '複数設定する場合は、半角スペースで区切ります。</p>';
 		$html .= '</td>';
@@ -80,7 +83,7 @@ Class Sample_Plugin_Post {
 		$html .= '<tr>';
 		$html .= '<th>ID名</th>';
 		$html .= '<td>';
-		$html .= '<input type="text" name="sample-element-id" class="regular-text">';
+		$html .= '<input type="text" name="sample-element-id" class="regular-text" value="' . $args->insert_element_id . '">';
 		$html .= '<p class="description">バナー画像にIDを追加することができます。「id=""」は不要です。</p>';
 		$html .= '</td>';
 		$html .= '</tr>';
@@ -101,7 +104,7 @@ Class Sample_Plugin_Post {
 		$html .= '<tr>';
 		$html .= '<th>絞り込み</th>';
 		$html .= '<td>';
-		$html .= '<input type="checkbox" name="sample-filter-category">テゴリーで絞り込み';
+		$html .= '<input type="checkbox" name="sample-filter-category" value="' . $args->filter_category . '">テゴリーで絞り込み';
 		$html .= '<p class="description">チェックされていない場合は、すべてに無条件で表示され、「表示するカテゴリ」項目の設定は無視されます。</p>';
 		$html .= '</td>';
 		$html .= '</tr>';
