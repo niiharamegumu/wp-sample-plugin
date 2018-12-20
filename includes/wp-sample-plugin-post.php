@@ -15,6 +15,7 @@ Class Sample_Plugin_Post {
 	*/
 	public function __construct() {
 		$db = new Sample_Plugin_Admin_Db();
+		//$_GET['id']のisset判定が必要
 		$args = $db->get_option( $_GET['id'] );
 		var_dump( $args );
 		// $db->insert_options( $_POST );
