@@ -15,6 +15,13 @@ Class Sample_Plugin_List {
 	*/
 	public function __construct() {
 		$db = new Sample_Plugin_Admin_Db();
+		
+		if ( isset( $_GET['mode'] ) && $_GET['mode'] === 'delete' ) {
+			if ( isset($_GET['id']) && is_numeric($_GET['id']) ) {
+				$db->delete_options( $_GET['id'] );
+			}
+			$this->information_render();
+		}
 		$this->page_render( $db );
 	}
 
@@ -27,6 +34,7 @@ Class Sample_Plugin_List {
 	*/
 	private function page_render ( $db ) {
 		$post_url = admin_url() . 'admin.php?page=wp-sample-plugin/includs/wp-sample-plugin-post.php';
+		$self_url = $_SERVER[ 'PHP_SELF' ] . '?' . $_SERVER[ 'QUERY_STRING' ];
 		
 		
 		$html = '<div class="wrap">';
@@ -48,6 +56,7 @@ Class Sample_Plugin_List {
 				$html .= '<td>' . $row->how_display . '</td>';
 				$html .= '<td>' . $row->filter_category . '</td>';
 				$html .= '<td><a href="' . $post_url . '&id=' . $row->id . '">編集</a></td>';
+				$html .= '<td><a href="' . $self_url . '&mode=delete&id=' . $row->id . '">削除</a></td>';
 				$html .= '</tr>';
 			}
 		} else {
@@ -57,6 +66,21 @@ Class Sample_Plugin_List {
 		}
 		
 		$html .= '</table>';
+		$html .= '</div>';
+		
+		echo $html;
+	}
+	
+	/**
+	* Information Message Render.
+	*
+	* @version 1.0.0
+	* @since 1.0.0
+	*/
+	private function information_render () {
+		$html  = '<div id="message" class="updated notice notice-success is-dismissible blow-h2">';
+		$html .= '<p>削除されました。＼(^o^)／</p>';
+		$html .= '<button type="button" class="notice-dismiss"></button>';
 		$html .= '</div>';
 		
 		echo $html;
