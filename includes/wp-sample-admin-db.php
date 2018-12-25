@@ -68,7 +68,7 @@ Class Sample_Plugin_Admin_Db {
 		$data     = array( $id );
 		$prepared = $wpdb->prepare( $query, $data );
 		//一つだけ取得
-		return $wpdb->get_row( $prepared );
+		return (array)$wpdb->get_row( $prepared );
 	}
 	/**
 	* Get data.
