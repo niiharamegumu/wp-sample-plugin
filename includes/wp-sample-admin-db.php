@@ -70,6 +70,8 @@ Class Sample_Plugin_Admin_Db {
 		//一つだけ取得
 		return (array)$wpdb->get_row( $prepared );
 	}
+	
+	
 	/**
 	* Get data.
 	*
