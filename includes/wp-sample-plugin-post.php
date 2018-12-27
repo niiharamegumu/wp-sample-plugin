@@ -47,7 +47,6 @@ Class Sample_Plugin_Post {
 		
 		$args    = $db->get_option( $options['id'] );
 		$options = array_merge( $options, $args );
-		
 		$this->page_render( $options );
 	}
 
